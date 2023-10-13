@@ -1,7 +1,7 @@
 import Container from "@/app/components/Container";
 import FormWrap from "@/app/components/FormWrap";
 
-import getCurrentUser from "@/actions/getCurrentUser";
+import {getCurrentUser} from "@/actions/getCurrentUser";
 
 import AddProductForm from "./AddProductForm";
 import NullData from "@/app/components/NullData";
@@ -9,7 +9,7 @@ import NullData from "@/app/components/NullData";
 const AddProducts = async () => {
   const currentUser = await getCurrentUser();
 
-  if (!currentUser || currentUser.role === "ADMIN") {
+  if (!currentUser || currentUser.role !== "ADMIN") {
     return <NullData title="Oops! Access Denied" />;
   }
   return (
