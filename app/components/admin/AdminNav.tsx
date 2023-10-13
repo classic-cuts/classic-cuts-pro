@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { Container } from "@mui/material";
 import {
   MdDashboard,
   MdDns,
@@ -12,6 +11,7 @@ import {
 } from "react-icons/md";
 
 import AdminNavItem from "./AdminNavItem";
+import Container from "../Container";
 
 const AdminNav = () => {
   const pathName = usePathname();
