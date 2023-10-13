@@ -6,9 +6,14 @@ import { MdArrowBack } from "react-icons/md";
 import Heading from "../components/Heading";
 import Button from "../components/Button";
 import ItemContent from "./ItemContent";
+import { useEffect } from "react";
 
 const CartClient = () => {
-  const { cartProducts, handleClearCart,cartTotalAmount } = useCart();
+  useEffect(() => {
+    document.title = "Cart | Classic Cuts";
+  }, []);
+
+  const { cartProducts, handleClearCart, cartTotalAmount } = useCart();
 
   if (!cartProducts || !cartProducts.length) {
     return (
