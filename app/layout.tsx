@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     "Classic cuts is an ecommerce platform where you can buy all of your favourite stuffs.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
