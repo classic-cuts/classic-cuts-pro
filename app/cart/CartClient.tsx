@@ -1,19 +1,32 @@
 "use client";
 
-import { useCart } from "@/hooks/useCart";
-import Link from "next/link";
+import { useEffect } from "react";
 import { MdArrowBack } from "react-icons/md";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import { useCart } from "@/hooks/useCart";
+
 import Heading from "../components/Heading";
 import Button from "../components/Button";
-import ItemContent from "./ItemContent";
-import { useEffect } from "react";
 
-const CartClient = () => {
+import ItemContent from "./ItemContent";
+
+import { SafeUser } from "@/types";
+
+interface CartClientProps {
+  currentUser: SafeUser | null;
+}
+
+const CartClient: React.FC<CartClientProps> = ({ currentUser }) => {
   useEffect(() => {
     document.title = "Cart | Classic Cuts";
   }, []);
 
   const { cartProducts, handleClearCart, cartTotalAmount } = useCart();
+
+  const router = useRouter();
 
   if (!cartProducts || !cartProducts.length) {
     return (
@@ -64,7 +77,13 @@ const CartClient = () => {
           <p className="text-slate-500">
             Taxes and shipping calculated at checkout
           </p>
-          <Button label="Checkout" onClick={() => {}} />
+          <Button
+            label={currentUser ? "Checkout" : "Login to checkout"}
+            outline={currentUser ? false : true}
+            onClick={() => {
+              currentUser ? router.push("/checkout") : router.push("/login");
+            }}
+          />
           <Link
             href={"/"}
             className="text-slate-500 flex items-center gap-1 mt-2"

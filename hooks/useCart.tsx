@@ -1,4 +1,3 @@
-import { CartProductType } from "@/app/product/[productid]/ProductDetails";
 import {
   createContext,
   useCallback,
@@ -6,17 +5,22 @@ import {
   useEffect,
   useState,
 } from "react";
+
 import { toast } from "react-hot-toast";
+
+import { CartProductType } from "@/app/product/[productid]/ProductDetails";
 
 type CartContextType = {
   cartTotalQty: number;
-  cartTotalAmount:number;
+  cartTotalAmount: number;
   cartProducts: CartProductType[] | null;
   handleAddProductToCart: (product: CartProductType) => void;
   handleRemoveProductFromCart: (product: CartProductType) => void;
   handleCartQtyIncrease: (product: CartProductType) => void;
   handleCartQtyDecrease: (product: CartProductType) => void;
   handleClearCart: () => void;
+  paymentIntent: string | null;
+  handleSetPaymentIntent: (val: string | null) => void;
 };
 
 interface Props {
@@ -31,11 +35,17 @@ export const CartContextProvider = (props: Props) => {
   const [cartProducts, setCartProducts] = useState<CartProductType[] | null>(
     null
   );
+  const [paymentIntent, setPaymentIntent] = useState<string | null>(null);
 
   useEffect(() => {
     const cartItems: any = localStorage.getItem("classicCutsCartItems");
     const cProducts: CartProductType[] | null = JSON.parse(cartItems);
+    const classicCutsPaymentIntent: any = localStorage.getItem(
+      "classicCutsPaymentIntent"
+    );
+    const paymentIntent: string | null = JSON.parse(classicCutsPaymentIntent);
     setCartProducts(cProducts);
+    setPaymentIntent(paymentIntent);
   }, []);
 
   useEffect(() => {
@@ -149,6 +159,13 @@ export const CartContextProvider = (props: Props) => {
     localStorage.setItem("classicCutsCartItems", JSON.stringify(null));
   }, [cartProducts]);
 
+  const handleSetPaymentIntent = useCallback(
+    (val: string | null) => {
+      setPaymentIntent(val);
+      localStorage.setItem("classicCutsPaymentIntent", JSON.stringify(val));
+    },
+    [paymentIntent]
+  );
   const value = {
     cartTotalQty,
     cartTotalAmount,
@@ -158,6 +175,8 @@ export const CartContextProvider = (props: Props) => {
     handleCartQtyIncrease,
     handleCartQtyDecrease,
     handleClearCart,
+    paymentIntent,
+    handleSetPaymentIntent,
   };
   return <CartContext.Provider value={value} {...props} />;
 };
