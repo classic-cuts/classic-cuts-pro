@@ -1,6 +1,6 @@
 "use client";
 
-import { formatePrice } from "@/utils/formatePrice";
+import { formatPrice } from "@/utils/formatPrice";
 import { CartProductType } from "../product/[productid]/ProductDetails";
 import Link from "next/link";
 import { truncatetext } from "@/utils/truncateText";
@@ -45,7 +45,7 @@ const ItemContent: React.FC<ItemContentProps> = ({ item }) => {
           </div>
         </div>
       </div>
-      <div className="justify-self-center">{formatePrice(item.price)}</div>
+      <div className="justify-self-center">{formatPrice(item.price)}</div>
       <div className="justify-self-center">
         <SetQuantity
           CartCounter={true}
@@ -59,7 +59,7 @@ const ItemContent: React.FC<ItemContentProps> = ({ item }) => {
         />
       </div>
       <div className="justify-self-end font-semibold">
-        {formatePrice(item.price * item.quantity)}
+        {formatPrice(item.price * item.quantity)}
       </div>
     </div>
   );
