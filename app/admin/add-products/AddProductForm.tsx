@@ -1,17 +1,33 @@
 "use client";
 
-import { useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import axios from "axios";
+
+import { useRouter } from "next/navigation";
+
+import { useCallback, useEffect, useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+} from "firebase/storage";
 
 import Heading from "@/app/components/Heading";
 import Input from "@/app/components/input/Input";
 import TextArea from "@/app/components/input/TextArea";
 import CustomCheckBox from "@/app/components/input/CustomCheckBox";
 import CategoryInput from "@/app/components/input/CategoryInput";
+import SelectColor from "@/app/components/input/SelectColor";
+import Button from "@/app/components/Button";
+
+import firebaseApp from "@/libs/firebase";
 
 import { categories } from "@/utils/Categories";
 import { colors } from "@/utils/Colors";
-import SelectColor from "@/app/components/input/SelectColor";
 
 export type ImageType = {
   color: string;
@@ -24,8 +40,13 @@ export type UploadedImageType = {
   colorCode: string;
   image: string;
 };
+
 const AddProductForm = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [images, setImages] = useState<ImageType[] | null>();
+  const [isProductCreated, setIsProductCreated] = useState(false);
+  const router = useRouter();
+  // console.log("images", images);
   const {
     register,
     handleSubmit,
@@ -45,13 +66,136 @@ const AddProductForm = () => {
     },
   });
 
+  useEffect(() => {
+    setCustomValue("images", images);
+  }, [images]);
+
+  useEffect(() => {
+    if (isProductCreated) {
+      reset();
+      setImages(null);
+      setIsProductCreated(false);
+    }
+  }, [isProductCreated]);
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log("product data", data);
+    setIsLoading(false);
+    let uploadedImages: UploadedImageType[] = [];
+    if (!data.category) {
+      setIsLoading(false);
+      return toast.error("Category is not selected");
+    }
+    if (!data.images || data.images.length === 0) {
+      setIsLoading(false);
+      return toast.error("No selected image");
+    }
+
+    const handleImageUploads = async () => {
+      toast("Creating product, please wait..");
+      try {
+        for (const item of data.images) {
+          if (item.image) {
+            const fileName = new Date().getTime() + "-" + item.image.name;
+            const storage = getStorage(firebaseApp);
+            const storageRef = ref(storage, `products/${fileName}`);
+            const uploadTask = uploadBytesResumable(storageRef, item.image);
+
+            await new Promise<void>((resolve, reject) => {
+              uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                  const progress =
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                  console.log("upload is " + progress + "% done");
+                  switch (snapshot.state) {
+                    case "paused":
+                      console.log("upload is paused");
+                      break;
+
+                    case "running":
+                      console.log("upload is running");
+                      break;
+                  }
+                },
+                (error) => {
+                  console.log("error uploading image", error);
+                  reject(error);
+                },
+                () => {
+                  getDownloadURL(uploadTask.snapshot.ref)
+                    .then((downloadURL) => {
+                      uploadedImages.push({
+                        ...item,
+                        image: downloadURL,
+                      });
+                      console.log("File available at", downloadURL);
+                      resolve();
+                    })
+                    .catch((error) => {
+                      console.log("error getting the download url", error);
+                      reject(error);
+                    });
+                }
+              );
+            });
+          }
+        }
+      } catch (error) {
+        setIsLoading(false);
+        console.log("error handling image uploads", error);
+        return toast.error("An error occured");
+      }
+    };
+
+    await handleImageUploads();
+    const productData = { ...data, images: uploadedImages };
+    console.log("productData", productData);
+    axios
+      .post("/api/product", productData)
+      .then(() => {
+        toast.success("Product created and saved in db");
+        setIsProductCreated(true);
+        router.refresh();
+      })
+      .catch((error) => {
+        console.log("Error saving product to db", error);
+        toast.error("Error saving product to db");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
   const category = watch("category");
-  const setCustomValue = (id: string, value: any) =>
+
+  const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
       shouldValidate: true,
       shouldDirty: true,
       shouldTouch: true,
     });
+  };
+
+  const addImageToState = useCallback((value: ImageType) => {
+    setImages((prev) => {
+      if (!prev) {
+        return [value];
+      }
+      return [...prev, value];
+    });
+  }, []);
+
+  const removeImageFromState = useCallback((value: ImageType) => {
+    setImages((prev) => {
+      if (prev) {
+        const filteredImages = prev.filter(
+          (item) => item.color !== value.color
+        );
+        return filteredImages;
+      }
+      return prev;
+    });
+  }, []);
   return (
     <>
       <Heading title="Add a Product" center />
@@ -129,14 +273,18 @@ const AddProductForm = () => {
               <SelectColor
                 key={index}
                 item={item}
-                addImageToState={() => {}}
-                removeImageFromState={() => {}}
-                isProductCreated={false}
+                addImageToState={addImageToState}
+                removeImageFromState={removeImageFromState}
+                isProductCreated={isProductCreated}
               />
             );
           })}
         </div>
       </div>
+      <Button
+        label={isLoading ? "Loading" : "Add product"}
+        onClick={handleSubmit(onSubmit)}
+      />
     </>
   );
 };
