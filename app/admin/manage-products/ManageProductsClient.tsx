@@ -1,12 +1,9 @@
 "use client";
 
-import React, { useCallback } from "react";
+import { useRouter } from "next/navigation";
 
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Product } from "@prisma/client";
-import { formatPrice } from "@/utils/formatPrice";
-import Heading from "@/app/components/Heading";
-import Status from "@/app/components/Status";
+import React, { useCallback } from "react";
+import toast from "react-hot-toast";
 import {
   MdCached,
   MdClose,
@@ -14,11 +11,22 @@ import {
   MdDone,
   MdRemoveRedEye,
 } from "react-icons/md";
-import ActionBtn from "@/app/components/ActionBtn";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+
+import { Product } from "@prisma/client";
+
+import axios from "axios";
+
+import { deleteObject, getStorage, ref } from "firebase/storage";
+
+import { formatPrice } from "@/utils/formatPrice";
+
+import firebaseApp from "@/libs/firebase";
+
+import Heading from "@/app/components/Heading";
+import Status from "@/app/components/Status";
+import ActionBtn from "@/app/components/ActionBtn";
 interface ManageProductsClientProps {
   products: Product[];
 }
@@ -27,6 +35,7 @@ const ManageProductsClient: React.FC<ManageProductsClientProps> = ({
   products,
 }) => {
   const router = useRouter();
+  const storage = getStorage(firebaseApp);
   let rows: any = [];
 
   if (products) {
@@ -97,8 +106,18 @@ const ManageProductsClient: React.FC<ManageProductsClientProps> = ({
                 handleToggleStock(params.row.id, params.row.inStock);
               }}
             />
-            <ActionBtn icon={MdDelete} onClick={() => {}} />
-            <ActionBtn icon={MdRemoveRedEye} onClick={() => {}} />
+            <ActionBtn
+              icon={MdDelete}
+              onClick={() => {
+                handleDelete(params.row.id, params.row.images);
+              }}
+            />
+            <ActionBtn
+              icon={MdRemoveRedEye}
+              onClick={() => {
+                router.push(`product/${params.row.id}`);
+              }}
+            />
           </div>
         );
       },
@@ -118,6 +137,36 @@ const ManageProductsClient: React.FC<ManageProductsClientProps> = ({
       .catch((err) => {
         toast.error("oops! something went wrong");
         console.log(err);
+      });
+  }, []);
+
+  const handleDelete = useCallback(async (id: string, images: any) => {
+    toast("Deleting product, please wait!");
+
+    const handleImageDelete = async () => {
+      try {
+        for (const item of images) {
+          if (item.image) {
+            const imageRef = ref(storage, item.image);
+            await deleteObject(imageRef);
+            console.log("image deleted", item.image);
+          }
+        }
+      } catch (error) {
+        return console.log("Deleting images error", error);
+      }
+    };
+    await handleImageDelete();
+
+    axios
+      .delete(`/api/product/${id}`)
+      .then((res) => {
+        toast.success("Product deleted");
+        router.refresh();
+      })
+      .catch((err) => {
+        toast.error("Failed to delete the product");
+        console.log("Failed to delete the product", err);
       });
   }, []);
 
