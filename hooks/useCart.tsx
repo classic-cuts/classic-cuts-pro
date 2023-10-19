@@ -53,8 +53,8 @@ export const CartContextProvider = (props: Props) => {
       if (cartProducts) {
         const { total, qty } = cartProducts?.reduce(
           (acc, item) => {
-            const itemToatal = item.price * item.quantity;
-            acc.total += itemToatal;
+            const itemTotal = item.price * item.quantity;
+            acc.total += itemTotal;
             acc.qty += item.quantity;
             return acc;
           },
@@ -69,6 +69,7 @@ export const CartContextProvider = (props: Props) => {
     };
     getTotals();
   }, [cartProducts]);
+
   const handleAddProductToCart = useCallback((product: CartProductType) => {
     setCartProducts((prev) => {
       let updatedCart;
@@ -78,10 +79,10 @@ export const CartContextProvider = (props: Props) => {
       } else {
         updatedCart = [product];
       }
-      toast.success("Product added to cart");
       localStorage.setItem("classicCutsCartItems", JSON.stringify(updatedCart));
       return updatedCart;
     });
+    toast.success("Product added to cart");
   }, []);
 
   const handleRemoveProductFromCart = useCallback(

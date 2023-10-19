@@ -18,7 +18,7 @@ interface LoginFormProps {
 
 const LoginForm:React.FC<LoginFormProps> = ({currentUser}) => {
   useEffect(() => {
-    document.title = "Sign Up | Classic Cuts";
+    document.title = "Login | Classic Cuts";
   }, []);
   const [isLoading, setIsLoading] = useState(false);
   const {
