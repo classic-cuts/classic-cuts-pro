@@ -4,14 +4,7 @@ import prisma from "@/libs/prismadb";
 
 import { getCurrentUser } from "@/actions/getCurrentUser";
 
-export async function DELETE(
-  request: Request,
-  {
-    params,
-  }: {
-    params: { id: string };
-  }
-) {
+export async function PUT(request: Request) {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) return NextResponse.error();
@@ -19,9 +12,14 @@ export async function DELETE(
     return NextResponse.error();
   }
 
-  const product = await prisma.product.delete({
-    where: { id: params.id },
-  });
+  const body = await request.json();
+  const { id, deliveryStatus } = body;
 
-  return NextResponse.json(product);
+  const order = await prisma.order.update({
+    where: {
+      id: id,
+    },
+    data: { deliveryStatus },
+  });
+  return NextResponse.json(order);
 }
