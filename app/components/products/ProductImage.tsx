@@ -3,7 +3,7 @@
 import {
   CartProductType,
   SelectedImgType,
-} from "@/app/product/[productid]/ProductDetails";
+} from "@/app/product/[productId]/ProductDetails";
 import Image from "next/image";
 
 interface ProductImageProps {
@@ -45,8 +45,8 @@ const ProductImage: React.FC<ProductImageProps> = ({
       </div>
       <div className="col-span-5 relative aspect-square ">
         <Image
-        src={cartProduct.selectedImg.image}
-        alt={cartProduct.name}
+          src={cartProduct.selectedImg.image}
+          alt={cartProduct.name}
           fill
           className="w-full h-full object-contain max-h-[500px] min-h-[300px] sm:min-h-[400px]"
         />
