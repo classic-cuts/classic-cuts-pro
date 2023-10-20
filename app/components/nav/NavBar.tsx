@@ -27,8 +27,9 @@ const NavBar = async () => {
               <SearchBar />
             </div>
             <div className="flex items-center gap-8 md:gap-12">
+              {(!currentUser || currentUser?.role === "USER") && <CartCount />}
+
               <CartCount />
-              <UserMenu currentUser={currentUser} />
             </div>
           </div>
         </Container>

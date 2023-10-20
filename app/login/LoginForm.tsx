@@ -36,7 +36,7 @@ const LoginForm:React.FC<LoginFormProps> = ({currentUser}) => {
 
   useEffect(()=>{
     if(currentUser){
-      router.push("/cart")
+      router.push("/")
       router.refresh()
     }
   },[])
@@ -46,7 +46,7 @@ const LoginForm:React.FC<LoginFormProps> = ({currentUser}) => {
     signIn("credentials", { ...data, redirect: false }).then((callback) => {
       setIsLoading(false);
       if (callback?.ok) {
-        router.push("/cart");
+        router.push("/");
         router.refresh();
         toast.success("Logged In");
       }
