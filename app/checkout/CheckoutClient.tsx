@@ -24,8 +24,6 @@ const CheckoutClient = () => {
 
   const router = useRouter();
 
-  console.log("paymentIntent", paymentIntent);
-  console.log("clientSecret", clientSecret);
 
   useEffect(() => {
     if (cartProducts) {
@@ -54,7 +52,6 @@ const CheckoutClient = () => {
         })
         .catch((error) => {
           setError(true);
-          console.log("ERROR", error);
           toast.error("Something went wrong");
         });
     }

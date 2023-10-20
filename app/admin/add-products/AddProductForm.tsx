@@ -46,7 +46,6 @@ const AddProductForm = () => {
   const [images, setImages] = useState<ImageType[] | null>();
   const [isProductCreated, setIsProductCreated] = useState(false);
   const router = useRouter();
-  // console.log("images", images);
   const {
     register,
     handleSubmit,
@@ -79,7 +78,6 @@ const AddProductForm = () => {
   }, [isProductCreated]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log("product data", data);
     setIsLoading(false);
     let uploadedImages: UploadedImageType[] = [];
     if (!data.category) {
@@ -107,19 +105,15 @@ const AddProductForm = () => {
                 (snapshot) => {
                   const progress =
                     (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  console.log("upload is " + progress + "% done");
                   switch (snapshot.state) {
                     case "paused":
-                      console.log("upload is paused");
                       break;
 
                     case "running":
-                      console.log("upload is running");
                       break;
                   }
                 },
                 (error) => {
-                  console.log("error uploading image", error);
                   reject(error);
                 },
                 () => {
@@ -129,11 +123,9 @@ const AddProductForm = () => {
                         ...item,
                         image: downloadURL,
                       });
-                      console.log("File available at", downloadURL);
                       resolve();
                     })
                     .catch((error) => {
-                      console.log("error getting the download url", error);
                       reject(error);
                     });
                 }
@@ -143,14 +135,12 @@ const AddProductForm = () => {
         }
       } catch (error) {
         setIsLoading(false);
-        console.log("error handling image uploads", error);
         return toast.error("An error occured");
       }
     };
 
     await handleImageUploads();
     const productData = { ...data, images: uploadedImages };
-    console.log("productData", productData);
     axios
       .post("/api/product", productData)
       .then(() => {
@@ -159,7 +149,6 @@ const AddProductForm = () => {
         router.refresh();
       })
       .catch((error) => {
-        console.log("Error saving product to db", error);
         toast.error("Error saving product to db");
       })
       .finally(() => {
