@@ -22,6 +22,5 @@ export default async function getOrderById(params: IParams) {
     
   } catch (error: any) {
     throw new Error(error);
-    console.log("error in getOrderById");
   }
 }

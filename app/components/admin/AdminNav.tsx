@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import {
   MdDashboard,
@@ -12,9 +12,19 @@ import {
 
 import AdminNavItem from "./AdminNavItem";
 import Container from "../Container";
+import { getCurrentUser } from "@/actions/getCurrentUser";
+import { SafeUser } from "@/types";
 
-const AdminNav = () => {
+interface AdminNavTypes {
+  currentUser: SafeUser | null | undefined;
+}
+
+const AdminNav: React.FC<AdminNavTypes> = ({ currentUser }) => {
   const pathName = usePathname();
+  const router = useRouter();
+  if (currentUser?.role === "USER") {
+    router.push("/");
+  }
   return (
     <div className="w-full shadow-sm border-b-[1px] top-20 pt-4">
       <Container>

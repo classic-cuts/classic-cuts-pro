@@ -12,7 +12,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
   if (products.length === 0) {
     return (
-      <NullData title="Oops! No products found. Clicl 'All' to clear filters" />
+      <NullData title="Oops! No products found. ClicK 'All' to clear filters" />
     );
   }
 
