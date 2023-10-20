@@ -16,19 +16,24 @@ import ItemContent from "./ItemContent";
 import { SafeUser } from "@/types";
 
 interface CartClientProps {
-  currentUser: SafeUser | null;
+  currentUser: SafeUser | null | undefined;
 }
 
 const CartClient: React.FC<CartClientProps> = ({ currentUser }) => {
   useEffect(() => {
     document.title = "Cart | Classic Cuts";
+    if(currentUser?.role==="ADMIN"){
+      router.push("/")
+    }
   }, []);
 
   const { cartProducts, handleClearCart, cartTotalAmount } = useCart();
 
   const router = useRouter();
 
-  if (!cartProducts || !cartProducts.length) {
+  if (currentUser?.role === "ADMIN") {
+    router.push("/");
+  } else if (!cartProducts || !cartProducts.length) {
     return (
       <div className="flex flex-col items-center ">
         <div className="text-2xl">Your cart is empty</div>

@@ -7,7 +7,7 @@ import { getCurrentUser } from "@/actions/getCurrentUser";
 
 const redDressed = Redressed({ subsets: ["latin"], weight: ["400"] });
 
-const NavBar = async() => {
+const NavBar = async () => {
   const currentUser = await getCurrentUser();
 
   return (
@@ -15,13 +15,16 @@ const NavBar = async() => {
       <div className="py-4 border-b-[1px]">
         <Container>
           <div className="flex items-center justify-between gap-3 md:gap-0">
-            <Link href="/" className={`${redDressed.className} font-bold text-2xl`}>
+            <Link
+              href="/"
+              className={`${redDressed.className} font-bold text-2xl`}
+            >
               Classic Cuts
             </Link>
             <div className="hidden md:block">Search</div>
             <div className="flex items-center gap-8 md:gap-12">
-              <CartCount/>
-              <UserMenu currentUser={currentUser}/>
+              {(!currentUser || currentUser?.role === "USER") && <CartCount />}
+              <UserMenu currentUser={currentUser} />
             </div>
           </div>
         </Container>

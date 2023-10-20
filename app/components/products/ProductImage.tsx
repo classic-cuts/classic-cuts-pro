@@ -3,7 +3,7 @@
 import {
   CartProductType,
   SelectedImgType,
-} from "@/app/product/[productId]/ProductDetails";
+} from "@/app/product/[productid]/ProductDetails";
 import Image from "next/image";
 
 interface ProductImageProps {
