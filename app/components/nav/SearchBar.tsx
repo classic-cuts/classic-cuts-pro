@@ -29,7 +29,6 @@ const SearchBar = () => {
       },
       { skipNull: true }
     );
-
     router.push(url);
     reset()
   };

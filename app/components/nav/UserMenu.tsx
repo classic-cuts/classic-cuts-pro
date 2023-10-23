@@ -6,7 +6,6 @@ import { AiFillCaretDown } from "react-icons/ai";
 import Link from "next/link";
 import MenuItem from "./MenuItem";
 import { signOut } from "next-auth/react";
-import { Backdrop } from "@mui/material";
 import BackDrop from "./BackDrop";
 import { SafeUser } from "@/types";
 
@@ -48,7 +47,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                 <MenuItem
                   onClick={() => {
                     toggleOpen();
-                    signOut();
+                    signOut({ callbackUrl:"/login"});
                   }}
                 >
                   Logout
