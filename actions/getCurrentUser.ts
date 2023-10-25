@@ -23,11 +23,22 @@ export async function getCurrentUser() {
     if (!currentUser) {
       return null;
     }
-    return {
-      ...currentUser,
-      createdAt: currentUser.createdAt.toISOString(),
-      updateAt: currentUser.updateAt.toISOString(),
-      emailVerified: currentUser.emailVerified?.toISOString() || null,
-    };
+
+    if (currentUser.role === "SELLER") {
+      return {
+        ...currentUser,
+        sellerId: currentUser.id,
+        createdAt: currentUser.createdAt.toISOString(),
+        updateAt: currentUser.updateAt.toISOString(),
+        emailVerified: currentUser.emailVerified?.toISOString() || null,
+      };
+    } else {
+      return {
+        ...currentUser,
+        createdAt: currentUser.createdAt.toISOString(),
+        updateAt: currentUser.updateAt.toISOString(),
+        emailVerified: currentUser.emailVerified?.toISOString() || null,
+      };
+    }
   } catch (error) {}
 }

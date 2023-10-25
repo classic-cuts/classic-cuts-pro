@@ -1,14 +1,16 @@
 "use client";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { MdCheckCircle } from "react-icons/md";
+
 import Button from "@/app/components/Button";
 import ProductImage from "@/app/components/products/ProductImage";
 import SetColor from "@/app/components/products/SetColor";
 import SetQuantity from "@/app/components/products/SetQuantity";
+
 import { useCart } from "@/hooks/useCart";
 import { SafeUser } from "@/types";
 import { Rating } from "@mui/material";
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
-import { MdCheckCircle } from "react-icons/md";
 
 interface ProductDetailsProps {
   product: any;

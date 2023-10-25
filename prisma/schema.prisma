@@ -40,6 +40,7 @@ model User {
     accounts Account[]
     orders   Order[]
     reviews  Review[]
+    products Product[]
 }
 
 model Product {
@@ -50,8 +51,11 @@ model Product {
     brand       String
     category    String
     inStock     Boolean
-    images       Image[]
+    images      Image[]
     reviews     Review[]
+    seller      User?    @relation(fields: [sellerId], references: [id])
+
+    sellerId String @db.ObjectId
 }
 
 model Review {
@@ -88,7 +92,7 @@ type CartProductType {
     category    String
     brand       String
     selectedImg Image
-    quantity     Int
+    quantity    Int
     price       Float
 }
 
@@ -110,4 +114,5 @@ type Address {
 enum Role {
     USER
     ADMIN
+    SELLER
 }

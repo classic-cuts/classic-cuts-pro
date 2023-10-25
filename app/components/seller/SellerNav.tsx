@@ -10,51 +10,51 @@ import {
   MdLibraryAdd,
 } from "react-icons/md";
 
-import AdminNavItem from "./AdminNavItem";
+import SellerNavItem from "./SellerNavItem";
 import Container from "../Container";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { SafeUser } from "@/types";
 
-interface AdminNavTypes {
+interface SellerNavTypes {
   currentUser: SafeUser | null | undefined;
 }
 
-const AdminNav: React.FC<AdminNavTypes> = ({ currentUser }) => {
+const SellerNav: React.FC<SellerNavTypes> = ({ currentUser }) => {
   const pathName = usePathname();
   const router = useRouter();
-  if (!currentUser || currentUser?.role === "USER") {
+  if (!currentUser || currentUser?.role === 'USER') {
     router.push("/");
   }
   return (
     <div className="w-full shadow-sm border-b-[1px] top-20 pt-4">
       <Container>
         <div className="flex flex-row items-center justify-between md:justify-center gap-8 md:gap-12 overflow-x-auto flex-nowrap">
-          <Link href="/admin">
-            <AdminNavItem
+          <Link href="/seller">
+            <SellerNavItem
               label="Summary"
               icon={MdDashboard}
-              selected={pathName === "/admin"}
+              selected={pathName === "/seller"}
             />
           </Link>
-          <Link href="/admin/add-products">
-            <AdminNavItem
+          <Link href="/seller/add-products">
+            <SellerNavItem
               label="Add Products"
               icon={MdLibraryAdd}
-              selected={pathName === "/admin/add-products"}
+              selected={pathName === "/seller/add-products"}
             />
           </Link>
-          <Link href="/admin/manage-products">
-            <AdminNavItem
+          <Link href="/seller/manage-products">
+            <SellerNavItem
               label="Manage Products"
               icon={MdDns}
-              selected={pathName === "/admin/manage-products"}
+              selected={pathName === "/seller/manage-products"}
             />
           </Link>
-          <Link href="/admin/manage-orders">
-            <AdminNavItem
+          <Link href="/seller/manage-orders">
+            <SellerNavItem
               label="Manage Orders"
               icon={MdFormatListBulleted}
-              selected={pathName === "/admin/manage-orders"}
+              selected={pathName === "/seller/manage-orders"}
             />
           </Link>
         </div>
@@ -63,4 +63,4 @@ const AdminNav: React.FC<AdminNavTypes> = ({ currentUser }) => {
   );
 };
 
-export default AdminNav;
+export default SellerNav;
