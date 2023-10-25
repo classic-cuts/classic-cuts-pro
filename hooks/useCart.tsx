@@ -82,7 +82,7 @@ export const CartContextProvider = (props: Props) => {
       localStorage.setItem("classicCutsCartItems", JSON.stringify(updatedCart));
       return updatedCart;
     });
-    toast.success("Product added to cart");
+    toast.success(`Successfully added ${product.name} to cart`);
   }, []);
 
   const handleRemoveProductFromCart = useCallback(
@@ -93,7 +93,7 @@ export const CartContextProvider = (props: Props) => {
         });
 
         setCartProducts(filteredProducts);
-        toast.success("Product removed");
+        toast.success(`Successfully removed ${product.name} from your cart`);
         localStorage.setItem(
           "classicCutsCartItems",
           JSON.stringify(filteredProducts)

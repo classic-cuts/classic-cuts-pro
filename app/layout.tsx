@@ -9,7 +9,7 @@ import { Toaster } from "react-hot-toast";
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
-  title: "Classic Cuts | Home",
+  title: "Home | Classic Cuts",
   description:
     "Classic cuts is an ecommerce platform where you can buy all of your favourite stuffs.",
 };

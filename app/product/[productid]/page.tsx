@@ -6,16 +6,20 @@ import ListRating from "./ListRating";
 import NullData from "@/app/components/NullData";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import AddRating from "./AddRating";
+import { useEffect } from "react";
 
 interface IParams {
   productid?: string;
 }
 
 const Product = async ({ params }: { params: IParams }) => {
+
   const product = await getProductById(params);
   const currentUser = await getCurrentUser();
   if (!product) {
-    return <NullData title="Oops! Product with the given id does not exist" />;
+    return (
+      <NullData title="Oops! The product you are looking for does not exist" />
+    );
   }
   return (
     <div className="p-8">
