@@ -31,6 +31,5 @@ export async function POST(request: Request) {
       userId,
     },
   });
-  console.log(review)
   return NextResponse.json(review);
 }

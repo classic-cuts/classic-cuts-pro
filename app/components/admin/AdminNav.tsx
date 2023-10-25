@@ -22,7 +22,7 @@ interface AdminNavTypes {
 const AdminNav: React.FC<AdminNavTypes> = ({ currentUser }) => {
   const pathName = usePathname();
   const router = useRouter();
-  if (currentUser?.role === "USER") {
+  if (currentUser?.role !== "ADMIN") {
     router.push("/");
   }
   return (

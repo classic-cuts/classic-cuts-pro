@@ -1,14 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import Button from "./Button";
 import { useEffect } from "react";
+import Button from "./components/Button";
+import { useRouter } from "next/navigation";
 
-interface NullDataProps {
-  title: String;
-}
-
-const NullData: React.FC<NullDataProps> = ({ title }) => {
+const NotFound = () => {
   useEffect(() => {
     document.title = "This page could not be found | Classic Cuts";
   }, []);
@@ -22,7 +18,9 @@ const NullData: React.FC<NullDataProps> = ({ title }) => {
           width="500px"
         />
       </div>
-      <p className="text-xl">{title}</p>
+      <p className="text-xl">
+        Unfortunately the page you are looking for has been moved or deleted
+      </p>
       <div className="mt-2">
         <Button label="Go to HomePage" onClick={() => router.push("/")} />
       </div>
@@ -30,4 +28,4 @@ const NullData: React.FC<NullDataProps> = ({ title }) => {
   );
 };
 
-export default NullData;
+export default NotFound;
