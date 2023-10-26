@@ -51,3 +51,26 @@ export default async function getProducts(params: IProductParams) {
     throw new Error(error);
   }
 }
+
+export async function getSellerProducts(sellerId: string) {
+  try {
+    const products = await prisma.product.findMany({
+      where: {
+        sellerId,
+      },
+      include: {
+        reviews: {
+          include: {
+            user: true,
+          },
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
+      },
+    });
+    return products;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+}
