@@ -6,19 +6,19 @@ import Container from "../components/Container";
 import BarGraph from "./BarGraph";
 import getGraphData from "@/actions/getGraphData";
 import { getCurrentUser } from "@/actions/getCurrentUser";
+import NullData from "../components/NullData";
 
 const Seller = async () => {
   const currentUser = await getCurrentUser();
-  if (!currentUser) {
+  if (!currentUser || currentUser.role !== "SELLER") {
     return (
       <div className="pt-8">
         <Container>
-          <p>You are not authorized to access this page.</p>
+          <NullData title="You are not authorized to access this page." />
         </Container>
       </div>
     );
   }
-
   const { sellerId } = currentUser;
 
   console.log("sellerId", sellerId);
