@@ -15,7 +15,7 @@ export async function DELETE(
   const currentUser = await getCurrentUser();
 
   if (!currentUser) return NextResponse.error();
-  if (currentUser.role !== "ADMIN" || "SELLER") {
+  if (currentUser.role !== "ADMIN" && currentUser.role !== "SELLER") {
     return NextResponse.error();
   }
 

@@ -44,7 +44,7 @@ export default async function handler(
       if (typeof charge.payment_intent === "string") {
         await prisma?.order.update({
           where: { paymentIntentId: charge.payment_intent },
-          data: { status: "completed", address: charge.shipping?.address },
+          data: { status: "complete", address: charge.shipping?.address },
         });
       }
       break;
