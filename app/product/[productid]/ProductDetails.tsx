@@ -144,26 +144,36 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           </>
         ) : (
           <>
-            <SetColor
-              cartProduct={cartProduct}
-              images={product.images}
-              handleColorSelect={handleColorSelect}
-            />
-            <Horizontal />
-            <SetQuantity
-              CartProduct={cartProduct}
-              handleQtyDecrease={handleQtyDecrease}
-              handleQtyIncrease={handleQtyIncrease}
-            />
-            <Horizontal />
             {(!currentUser || currentUser?.role === "USER") && (
-              <div className="max-w-[300px]">
-                <Button
-                  label="Add to cart"
-                  onClick={() => handleAddProductToCart(cartProduct)}
+              <>
+                <SetColor
+                  cartProduct={cartProduct}
+                  images={product.images}
+                  handleColorSelect={handleColorSelect}
                 />
-              </div>
+                <Horizontal />
+                <SetQuantity
+                  CartProduct={cartProduct}
+                  handleQtyDecrease={handleQtyDecrease}
+                  handleQtyIncrease={handleQtyIncrease}
+                />
+                <Horizontal />
+
+                <div className="max-w-[300px]">
+                  <Button
+                    label="Add to cart"
+                    onClick={() => handleAddProductToCart(cartProduct)}
+                  />
+                </div>
+              </>
             )}
+            {currentUser &&
+              (currentUser.role === "ADMIN" ||
+                currentUser.role === "SELLER") && (
+                <div className="text-xl font-medium text-slate-700">
+                  Oops! You cannot buy this product. Please log in as a User.
+                </div>
+              )}
           </>
         )}
       </div>

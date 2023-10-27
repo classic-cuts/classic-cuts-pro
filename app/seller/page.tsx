@@ -31,9 +31,9 @@ const Seller = async () => {
     <div className="pt-8">
       <Container>
         <Summary products={products} orders={orders} sellerId={sellerId} />
-        <div className="mt-4 mx-auto max-w-[1150px]">
+        {/* <div className="mt-4 mx-auto max-w-[1150px]">
           <BarGraph data={graphData} />
-        </div>
+        </div> */}
       </Container>
     </div>
   );
