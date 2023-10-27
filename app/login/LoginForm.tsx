@@ -92,8 +92,8 @@ const LoginForm:React.FC<LoginFormProps> = ({currentUser}) => {
         onClick={handleSubmit(onSubmit)}
       />
       <p className="text-sm">
-        Don't have an account?
-        <Link href={"/register"} className="underline">
+        Don't have an account?{" "}
+        <Link href={"/register"} className="text-blue-800">
           Sign Up
         </Link>
       </p>

@@ -118,7 +118,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ currentUser }) => {
       />
       <p className="text-sm">
         Already have an account?{" "}
-        <Link href={"/login"} className="underline">
+        <Link href={"/login"} className="text-blue-800">
           Log in
         </Link>
       </p>
