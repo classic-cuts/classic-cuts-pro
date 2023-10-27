@@ -25,7 +25,14 @@ export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
-    return NextResponse.error()
+    return NextResponse.json(
+      {
+        error: "Unauthorized",
+      },
+      {
+        status: 401,
+      }
+    );
   }
 
   const body = await request.json();
@@ -68,7 +75,14 @@ export async function POST(request: Request) {
       ]);
 
       if (!existing_order) {
-        return NextResponse.error();
+        return NextResponse.json(
+          {
+            error: "Invalid Payment Intent",
+          },
+          {
+            status: 400,
+          }
+        );
       }
 
       return NextResponse.json({ paymentIntent: updated_intent });
@@ -78,6 +92,7 @@ export async function POST(request: Request) {
       amount: total,
       currency: "usd",
       automatic_payment_methods: { enabled: true },
+      description:"hello"
     });
     orderData.paymentIntentId = paymentIntent.id;
 

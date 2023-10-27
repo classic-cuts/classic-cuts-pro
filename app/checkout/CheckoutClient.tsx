@@ -27,6 +27,7 @@ const CheckoutClient = () => {
 
   useEffect(() => {
     if (cartProducts) {
+      console.log("cartProducts", cartProducts)
       setLoading(true);
       setError(false);
 
@@ -39,6 +40,7 @@ const CheckoutClient = () => {
         }),
       })
         .then((res) => {
+          console.log("res", res)
           setLoading(false);
           if (res.status === 401) {
             return router.push("/login");
@@ -47,11 +49,13 @@ const CheckoutClient = () => {
           return res.json();
         })
         .then((data) => {
+          console.log("here")
           setClientSecret(data.paymentIntent.client_secret);
           handleSetPaymentIntent(data.paymentIntent.id);
         })
         .catch((error) => {
           setError(true);
+          console.log("Error in checkout client", error)
           toast.error("Something went wrong");
         });
     }
@@ -85,7 +89,7 @@ const CheckoutClient = () => {
       {paymentSuccess && (
         <div className="flex items-center flex-col gap-4">
           <div className="text-teal-500 text-center">Payment Success</div>
-          <div className="max-x-[220px] w-full">
+          <div className="max-w-[220px] w-full">
             <Button
               label="View your orders"
               onClick={() => router.push("/orders")}
