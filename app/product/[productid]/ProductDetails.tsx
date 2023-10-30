@@ -158,6 +158,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                   handleQtyIncrease={handleQtyIncrease}
                 />
                 <Horizontal />
+                <div className="font-bold text-2xl">Price: ${product.price}</div>
+                <Horizontal />
 
                 <div className="max-w-[300px]">
                   <Button
