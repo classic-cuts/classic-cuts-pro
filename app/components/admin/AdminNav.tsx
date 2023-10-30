@@ -36,7 +36,7 @@ const AdminNav: React.FC<AdminNavTypes> = ({ currentUser }) => {
               selected={pathName === "/admin"}
             />
           </Link>
-          <Link href="/admin/add-products">
+          {/* <Link href="/admin/add-products">
             <AdminNavItem
               label="Add Products"
               icon={MdLibraryAdd}
@@ -49,7 +49,7 @@ const AdminNav: React.FC<AdminNavTypes> = ({ currentUser }) => {
               icon={MdDns}
               selected={pathName === "/admin/manage-products"}
             />
-          </Link>
+          </Link> */}
           <Link href="/admin/manage-orders">
             <AdminNavItem
               label="Manage Orders"
