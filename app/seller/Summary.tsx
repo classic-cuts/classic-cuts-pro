@@ -21,7 +21,7 @@ type summaryDataType = {
 const Summary: React.FC<SummaryProps> = ({ orders, products, sellerId }) => {
   const [summaryData, SetSummaryData] = useState<summaryDataType>({
     totalProductsSold: {
-      label: "Total Products Sold",
+      label: "Total Sale",
       digit: 0,
     },
     totalProductsListed: {
@@ -61,7 +61,7 @@ const Summary: React.FC<SummaryProps> = ({ orders, products, sellerId }) => {
 
       const totalProductsSold = sellerOrders.reduce((acc, item) => {
         if (item.status === "complete") {
-          return acc + item.amount;
+          return acc + (item.amount/100);
         } else {
           return acc;
         }

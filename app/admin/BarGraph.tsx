@@ -27,7 +27,7 @@ const BarGraph: React.FC<BarGraphProps> = ({ data }) => {
     return item.day;
   });
   const amounts = data.map((item)=>{
-    return item.totalAmount
+    return item.totalAmount/100
   });
 
   const chartData = {
