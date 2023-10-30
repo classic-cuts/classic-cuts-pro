@@ -27,6 +27,9 @@ const CartClient: React.FC<CartClientProps> = ({ currentUser }) => {
     if(currentUser?.role==="ADMIN"){
       router.push("/")
     }
+    if(currentUser?.role==="SELLER"){
+      router.push("/")
+    }
   }, []);
 
   const { cartProducts, handleClearCart, cartTotalAmount } = useCart();
