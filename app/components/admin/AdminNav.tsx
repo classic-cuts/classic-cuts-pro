@@ -23,7 +23,7 @@ const AdminNav: React.FC<AdminNavTypes> = ({ currentUser }) => {
   const pathName = usePathname();
   const router = useRouter();
   if (!currentUser || currentUser?.role !== "ADMIN") {
-    router.push("/");
+    router.replace("/");
   }
   return (
     <div className="w-full shadow-sm border-b-[1px] top-20 pt-4">

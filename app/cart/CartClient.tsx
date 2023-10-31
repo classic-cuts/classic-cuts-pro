@@ -24,11 +24,8 @@ interface CartClientProps {
 const CartClient: React.FC<CartClientProps> = ({ currentUser }) => {
   useEffect(() => {
     document.title = "Cart | Classic Cuts";
-    if(currentUser?.role==="ADMIN"){
-      router.push("/")
-    }
-    if(currentUser?.role==="SELLER"){
-      router.push("/")
+    if(currentUser?.role==="ADMIN" || currentUser?.role==="SELLER"){
+      router.replace("/")
     }
   }, []);
 
