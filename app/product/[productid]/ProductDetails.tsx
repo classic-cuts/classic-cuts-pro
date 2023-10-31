@@ -7,7 +7,7 @@ import Button from "@/app/components/Button";
 import ProductImage from "@/app/components/products/ProductImage";
 import SetColor from "@/app/components/products/SetColor";
 import SetQuantity from "@/app/components/products/SetQuantity";
-
+import { Tooltip as ReactTooltip } from "react-tooltip";
 import { useCart } from "@/hooks/useCart";
 import { SafeUser } from "@/types";
 import { Rating } from "@mui/material";
@@ -103,15 +103,24 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
         handleColorSelect={handleColorSelect}
       />
       <div className="flex flex-col gap-2 text-slate-500 text-sm">
-        <h2 className="text-3xl font-medium text-slate-700">{product.name}</h2>
+        <h2
+          className="text-3xl font-medium text-slate-700"
+          data-tooltip-id="product_name"
+        >
+          {product.name}
+        </h2>
         <div className="flex items-center gap-2">
           <Rating value={productRating} readOnly />
           <div>{product.reviews.length} reviews</div>
         </div>
         <Horizontal />
-        <div className="text-justify">{product.description}</div>
+        <div className="text-justify" data-tooltip-id="product_desc">
+          {product.description}
+        </div>
 
         <Horizontal />
+        <ReactTooltip id="product_desc" place="bottom" content="description" />
+        <ReactTooltip id="product_name" place="right" content="name" />
         <div>
           <span className="font-semibold">Category: </span>
           {product.category}
@@ -158,7 +167,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                   handleQtyIncrease={handleQtyIncrease}
                 />
                 <Horizontal />
-                <div className="font-bold text-2xl">Price: ${product.price}</div>
+                <div className="font-bold text-2xl">
+                  Price: ${product.price}
+                </div>
                 <Horizontal />
 
                 <div className="max-w-[300px]">

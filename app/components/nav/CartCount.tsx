@@ -1,5 +1,5 @@
 "use client";
-
+import { Tooltip as ReactTooltip } from "react-tooltip";
 import { useCart } from "@/hooks/useCart";
 import { useRouter } from "next/navigation";
 import { CiShoppingCart } from "react-icons/ci";
@@ -13,9 +13,10 @@ const CartCount = () => {
       className="relative cursor-pointer"
       onClick={() => router.push("/cart")}
     >
-      <div className="text-3xl">
+      <div className="text-3xl" data-tooltip-id="cart">
         <CiShoppingCart />
       </div>
+      <ReactTooltip id="cart" place="bottom" content="cart" />
       <span className="absolute top-[-10px] right-[-10px] bg-slate-700 text-white h-6 w-6 flex rounded-full items-center justify-center text-sm">
         {cartTotalQty}
       </span>

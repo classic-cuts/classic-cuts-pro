@@ -9,6 +9,9 @@ import ManageOrdersClient from "./ManageOrdersCLient";
 
 const ManageOrders = async () => {
   const orders = await getOrders();
+  if(!orders.length){
+    return <NullData title="No orders yet"/>
+  }
   const currentUser = await getCurrentUser();
   if (!currentUser || currentUser.role !== "ADMIN") {
     return <NullData title="Oops! Access Denied" />;

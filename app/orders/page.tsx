@@ -13,8 +13,7 @@ const Orders = async () => {
   }
 
   const orders = await getOrdersByUserId(currentUser.id);
-
-  if (!orders) {
+  if (!orders.length) {
     return <NullData title="No orders yet" />;
   }
 

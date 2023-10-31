@@ -23,8 +23,8 @@ const NullData: React.FC<NullDataProps> = ({ title }) => {
         />
       </div>
       <p className="text-xl text-slate-500">{title}</p>
-      <div className="mt-2">
-        <Button label="Go to HomePage" onClick={() => router.push("/")} />
+      <div className="mt-4">
+        <Button label="Go to HomePage" onClick={() => router.replace("/")} />
       </div>
     </main>
   );

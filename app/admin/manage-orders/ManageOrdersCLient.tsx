@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
+import { Tooltip as ReactTooltip } from "react-tooltip";
 import React, { useCallback } from "react";
 import toast from "react-hot-toast";
 import {
@@ -137,23 +137,46 @@ const ManageOrdersClient: React.FC<ManageOrdersClientProps> = ({ orders }) => {
       renderCell: (params) => {
         return (
           <div className="flex justify-between gap-4 w-full">
-            <ActionBtn
-              icon={MdDeliveryDining}
-              onClick={() => {
-                handleDispatch(params.row.id);
-              }}
+            <div data-tooltip-id="dispatch">
+              <ActionBtn
+                icon={MdDeliveryDining}
+                onClick={() => {
+                  handleDispatch(params.row.id);
+                }}
+              />
+            </div>
+            <div data-tooltip-id="deliver">
+              <ActionBtn
+                data-tooltip-id="order_deli"
+                icon={MdDone}
+                onClick={() => {
+                  handleDeliver(params.row.id);
+                }}
+              />
+            </div>
+
+            <div data-tooltip-id="view_product">
+              <ActionBtn
+                icon={MdRemoveRedEye}
+                onClick={() => {
+                  router.push(`/order/${params.row.id}`);
+                }}
+              />
+            </div>
+            <ReactTooltip
+              id="deliver"
+              place="bottom"
+              content="Change delivery status"
             />
-            <ActionBtn
-              icon={MdDone}
-              onClick={() => {
-                handleDeliver(params.row.id);
-              }}
+            <ReactTooltip
+              id="dispatch"
+              place="bottom"
+              content="Dispatch item"
             />
-            <ActionBtn
-              icon={MdRemoveRedEye}
-              onClick={() => {
-                router.push(`/order/${params.row.id}`);
-              }}
+            <ReactTooltip
+              id="view_product"
+              place="bottom"
+              content="Go to item"
             />
           </div>
         );

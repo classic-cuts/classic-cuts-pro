@@ -17,6 +17,10 @@ const ManageProducts = async () => {
   const sellerProducts = products.filter(
     (product) => product.sellerId === sellerId
   );
+  if (!sellerProducts.length) {
+    return <NullData title="No products found" />;
+  }
+
   return (
     <div className="pt-8">
       <Container>
