@@ -9,6 +9,7 @@ import {
 import { toast } from "react-hot-toast";
 
 import { CartProductType } from "@/app/product/[productid]/ProductDetails";
+import { truncatetext } from "@/utils/truncateText";
 
 type CartContextType = {
   cartTotalQty: number;
@@ -82,7 +83,7 @@ export const CartContextProvider = (props: Props) => {
       localStorage.setItem("classicCutsCartItems", JSON.stringify(updatedCart));
       return updatedCart;
     });
-    toast.success(`Successfully added ${product.name} to cart`);
+    toast.success(`Successfully added ${truncatetext(product.name)} to cart`);
   }, []);
 
   const handleRemoveProductFromCart = useCallback(
@@ -93,7 +94,7 @@ export const CartContextProvider = (props: Props) => {
         });
 
         setCartProducts(filteredProducts);
-        toast.success(`Successfully removed ${product.name} from your cart`);
+        toast.success(`Successfully removed ${truncatetext(product.name)} from your cart`);
         localStorage.setItem(
           "classicCutsCartItems",
           JSON.stringify(filteredProducts)

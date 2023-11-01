@@ -39,7 +39,7 @@ const SearchBar = () => {
         type="text"
         autoComplete="off"
         placeholder="Explore Classic cuts"
-        className="p-2 border border-gray-300 rounded-l-md focus:outline-none focus:border-[0.5px] focus:border-slate-500 w-80"
+        className="p-2 border border-gray-300 rounded-l-md focus:outline-none focus:border-none focus:border-slate-500 w-80"
       />
       <button
         onClick={handleSubmit(onSubmit)}

@@ -18,7 +18,13 @@ const ManageOrders = async () => {
   const sellerProducts = products.filter(
     (product) => product.sellerId === sellerId
   );
+  if(!sellerProducts.length){
+      return <NullData title="No orders found"/>
+  }
   const orders = await getOrders();
+  if(!orders.length){
+    return <NullData title="No orders yet"/>
+  }
   const sellerOrders = orders.filter((order) =>
     sellerProducts.some((product) => product.id === order.products[0].id)
   );
