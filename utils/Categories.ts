@@ -1,6 +1,7 @@
 import { AiFillPhone, AiOutlineDesktop, AiOutlineLaptop } from "react-icons/ai";
-import { MdKeyboard, MdStorefront, MdTv, MdWatch } from "react-icons/md";
-
+import { MdKeyboard, MdMic, MdStorefront, MdTv, MdWatch } from "react-icons/md";
+import { ImCamera, ImHeadphones } from "react-icons/im";
+import { FaStore } from "react-icons/fa";
 export const categories = [
   {
     label: "All",
@@ -23,11 +24,23 @@ export const categories = [
     icon: MdWatch,
   },
   {
+    label: "Mic",
+    icon: MdMic,
+  },
+  {
     label: "TV",
     icon: MdTv,
   },
   {
+    label: "Camera",
+    icon: ImCamera,
+  },
+  {
     label: "Accessories",
     icon: MdKeyboard,
+  },
+  {
+    label: "Others",
+    icon: FaStore,
   },
 ];

@@ -24,10 +24,9 @@ const CheckoutClient = () => {
 
   const router = useRouter();
 
-
   useEffect(() => {
-    if (cartProducts) {
-      console.log("cartProducts", cartProducts)
+    if (cartProducts?.length) {
+      console.log("cartProducts", cartProducts);
       setLoading(true);
       setError(false);
 
@@ -40,7 +39,8 @@ const CheckoutClient = () => {
         }),
       })
         .then((res) => {
-          console.log("res", res)
+          console.log("res", res);
+          console.log("posted to api");
           setLoading(false);
           if (res.status === 401) {
             return router.push("/login");
@@ -49,17 +49,17 @@ const CheckoutClient = () => {
           return res.json();
         })
         .then((data) => {
-          console.log("here")
+          console.log("data", data);
           setClientSecret(data.paymentIntent.client_secret);
           handleSetPaymentIntent(data.paymentIntent.id);
         })
         .catch((error) => {
           setError(true);
-          console.log("Error in checkout client", error)
+          console.log("Error in checkout client", error);
           toast.error("Something went wrong");
         });
     }
-  }, [cartProducts]);
+  }, [cartProducts, paymentIntent]);
 
   const options: StripeElementsOptions = {
     clientSecret,

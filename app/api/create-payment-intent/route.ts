@@ -51,15 +51,19 @@ export async function POST(request: Request) {
   };
 
   if (payment_intent_id) {
+    console.log('inside api/create-payment-intent')
+    console.log("payment_intent_id", payment_intent_id);
     const current_intent = await stripe.paymentIntents.retrieve(
       payment_intent_id
     );
+    console.log("current_intent", current_intent);
 
     if (current_intent) {
       const updated_intent = await stripe.paymentIntents.update(
         payment_intent_id,
         { amount: total }
       );
+      console.log("updated_intent", updated_intent);
       const [existing_order, update_order] = await Promise.all([
         prisma.order.findFirst({
           where: { paymentIntentId: payment_intent_id },
