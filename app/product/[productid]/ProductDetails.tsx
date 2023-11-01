@@ -180,15 +180,14 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                 </div>
               </>
             )}
-            {currentUser &&
-              (currentUser.role === "ADMIN" ||
-                currentUser.role === "SELLER") && (
-                <div className="text-xl font-medium text-slate-700">
-                  Oops! You cannot buy this product. Please log in as a User.
-                </div>
-              )}
           </>
         )}
+        {currentUser &&
+          (currentUser.role === "ADMIN" || currentUser.role === "SELLER") && (
+            <div className="text-xl font-sm text-slate-700">
+              Oops! You cannot buy this product. Please log in as a User.
+            </div>
+          )}
       </div>
     </div>
   );

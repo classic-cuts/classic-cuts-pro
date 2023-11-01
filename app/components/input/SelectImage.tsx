@@ -28,7 +28,6 @@ const SelectImage: React.FC<SelectImageProps> = ({
       {...getRootProps()}
       className="border-2 border-slate-400 p-2 cursor-pointer border-dashed text-sm font-normal text-slate-400 flex items-center justify-center"
     >
-      <input {...getRootProps()} />
       {isDragActive ? <p>Drop the image here..</p> : <p>{item?.color} Image</p>}
     </div>
   );
