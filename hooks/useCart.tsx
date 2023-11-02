@@ -10,6 +10,8 @@ import { toast } from "react-hot-toast";
 
 import { CartProductType } from "@/app/product/[productid]/ProductDetails";
 import { truncatetext } from "@/utils/truncateText";
+import getProducts from "@/actions/getProducts";
+import axios from "axios";
 
 type CartContextType = {
   cartTotalQty: number;
@@ -39,14 +41,20 @@ export const CartContextProvider = (props: Props) => {
   const [paymentIntent, setPaymentIntent] = useState<string | null>(null);
 
   useEffect(() => {
-    const cartItems: any = localStorage.getItem("classicCutsCartItems");
-    const cProducts: CartProductType[] | null = JSON.parse(cartItems);
-    const classicCutsPaymentIntent: any = localStorage.getItem(
-      "classicCutsPaymentIntent"
-    );
-    const paymentIntent: string | null = JSON.parse(classicCutsPaymentIntent);
-    setCartProducts(cProducts);
-    setPaymentIntent(paymentIntent);
+    const fetchData = async () => {
+      // const cartItems: any = await getProducts({ category: null });
+      // const cartItems = await axios.get("/api/cart");
+      // console.log("api", cartItems);
+      // const cartItems: any = localStorage.getItem("classicCutsCartItems");
+      // const cProducts: CartProductType[] | null = JSON.parse(cartItems);
+      const classicCutsPaymentIntent: any = localStorage.getItem(
+        "classicCutsPaymentIntent"
+      );
+      const paymentIntent: string | null = JSON.parse(classicCutsPaymentIntent);
+      // setCartProducts(cartItems as string);
+      setPaymentIntent(paymentIntent);
+    };
+    fetchData();
   }, []);
 
   useEffect(() => {
@@ -71,20 +79,38 @@ export const CartContextProvider = (props: Props) => {
     getTotals();
   }, [cartProducts]);
 
-  const handleAddProductToCart = useCallback((product: CartProductType) => {
-    setCartProducts((prev) => {
-      let updatedCart;
+  const handleAddProductToCart = useCallback(
+    async (product: CartProductType) => {
+      try {
+        const response = await axios.post("/api/cart", {userId:"1234", products:product});
+        console.log("response in handleAdd",response);
 
-      if (prev) {
-        updatedCart = [...prev, product];
-      } else {
-        updatedCart = [product];
+        toast.success(
+          `Successfully added ${truncatetext(product.name)} to cart`
+        );
+      } catch (error) {
+        // Handle errors if the POST request fails
+        console.error("Error adding product to cart:", error);
+        toast.error("Failed to add product to cart");
       }
-      localStorage.setItem("classicCutsCartItems", JSON.stringify(updatedCart));
-      return updatedCart;
-    });
-    toast.success(`Successfully added ${truncatetext(product.name)} to cart`);
-  }, []);
+    },
+    []
+  );
+
+  // const handleAddProductToCart = useCallback((product: CartProductType) => {
+  //   setCartProducts((prev) => {
+  //     let updatedCart;
+
+  //     if (prev) {
+  //       updatedCart = [...prev, product];
+  //     } else {
+  //       updatedCart = [product];
+  //     }
+  //     localStorage.setItem("classicCutsCartItems", JSON.stringify(updatedCart));
+  //     return updatedCart;
+  //   });
+  //   toast.success(`Successfully added ${truncatetext(product.name)} to cart`);
+  // }, []);
 
   const handleRemoveProductFromCart = useCallback(
     (product: CartProductType) => {
@@ -94,7 +120,9 @@ export const CartContextProvider = (props: Props) => {
         });
 
         setCartProducts(filteredProducts);
-        toast.success(`Successfully removed ${truncatetext(product.name)} from your cart`);
+        toast.success(
+          `Successfully removed ${truncatetext(product.name)} from your cart`
+        );
         localStorage.setItem(
           "classicCutsCartItems",
           JSON.stringify(filteredProducts)

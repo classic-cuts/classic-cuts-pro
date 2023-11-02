@@ -8,7 +8,6 @@ export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
   if (!currentUser) return NextResponse.error();
   if (currentUser.role !== "ADMIN" && currentUser.role !== "SELLER") {
-    console.log("Error in api product create route");
     return NextResponse.error();
   }
   

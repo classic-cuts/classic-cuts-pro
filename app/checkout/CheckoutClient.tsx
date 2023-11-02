@@ -39,8 +39,6 @@ const CheckoutClient = () => {
         }),
       })
         .then((res) => {
-          console.log("res", res);
-          console.log("posted to api");
           setLoading(false);
           if (res.status === 401) {
             return router.push("/login");

@@ -142,7 +142,6 @@ const AddProductForm = () => {
 
     await handleImageUploads();
     const productData = { ...data, images: uploadedImages };
-    console.log("productData", productData);
     axios
       .post("/api/product", productData)
       .then(() => {
@@ -151,7 +150,6 @@ const AddProductForm = () => {
         router.refresh();
       })
       .catch((error) => {
-        console.log("Error in seller panel add products", error)
         toast.error("Error saving product to db");
 
       })
